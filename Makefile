@@ -1,8 +1,11 @@
 install:
-	pip install -r requirements.txt
+	@pip install -r requirements.txt
 
 clean:
-	cd package && rm -rf __pycache__
+	@cd packages && rm -rf __pycache__
 
-run:
-	python main.py
+pull_trigger:
+	@python trigger.py
+
+api_check:
+	@cd packages && python sleeper_api.py

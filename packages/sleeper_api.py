@@ -1,4 +1,7 @@
+import os
 import requests
+
+username = os.getenv('USERNAME')
 
 def status(username):
     request = requests.get(f'https://api.sleeper.app/v1/user/{username}')
@@ -11,3 +14,7 @@ def roster(league):
 def player():
     request = requests.get('https://api.sleeper.app/v1/players/nfl')
     return request.json()
+
+
+if __name__=="__main__":
+    print(f"{status(username)}, the api call was successfull.")

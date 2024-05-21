@@ -25,6 +25,7 @@ if __name__=="__main__":
 
         #Transform Data and save Temporarily
         df = player_transform(data)
+        df.to_csv(f'../raw_data/csv/{current_date}_player.csv')
         print('File temporarily saved.')
 
         #Insert data into db
@@ -33,7 +34,7 @@ if __name__=="__main__":
         commit_close(connection)
 
         #Connect and update player historicals bucket
-        upload_to_bucket(f'raw_data/csv/{current_date}_player.csv', blob_name=(f'{current_date}_player.csv'), bucket_name=bucket)
+        upload_to_bucket(f'../raw_data/csv/{current_date}_player.csv', blob_name=(f'{current_date}_player.csv'), bucket_name=bucket)
 
         #Commit and close
         print('File executed successfully.')

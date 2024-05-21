@@ -9,4 +9,4 @@ COPY docker-require.txt /application
 RUN pip install --no-cache-dir --requirement /application/docker-require.txt
 COPY . /application
 
-CMD 'trigger.py'
+CMD ['python', 'application/trigger.py']

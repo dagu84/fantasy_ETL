@@ -4,7 +4,7 @@ install:
 clean:
 	@cd application/packages && rm -rf __pycache__
 
-pull_trigger:
+trigger:
 	@cd application && python trigger.py
 
 api_check:

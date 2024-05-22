@@ -2,6 +2,7 @@ import os
 import requests
 
 username = os.getenv('USERNAME')
+league = os.getenv('LEAGUE')
 
 def status(username):
     request = requests.get(f'https://api.sleeper.app/v1/user/{username}')
@@ -9,6 +10,10 @@ def status(username):
 
 def roster(league):
     request = requests.get(f'https://api.sleeper.app/v1/league/{league}/rosters')
+    return request.json()
+
+def user(league):
+    request = requests.get(f'https://api.sleeper.app/v1/league/{league}/users')
     return request.json()
 
 def player():

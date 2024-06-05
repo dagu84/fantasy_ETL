@@ -2,10 +2,9 @@ import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 
-qb_url = 'https://www.fantasypros.com/nfl/stats/qb.php?year=2023&week=1&scoring=PPR&range=week'
-rb_url = 'https://www.fantasypros.com/nfl/stats/rb.php?year=2023&week=1&scoring=PPR&range=week'
-wr_url = 'https://www.fantasypros.com/nfl/stats/wr.php?year=2023&week=1&scoring=PPR&range=week'
-te_url = 'https://www.fantasypros.com/nfl/stats/te.php?year=2023&week=1&scoring=PPR&range=week'
+def status_web(url):
+    response = requests.get(url)
+    return response
 
 def performance_scrape(url):
 
@@ -30,10 +29,3 @@ def performance_scrape(url):
     df = pd.DataFrame(rows, columns=headers)
 
     return df
-
-
-def dynasty_scrape(url):
-
-    # Calling website
-    response = requests.get(url)
-    soup = BeautifulSoup(response.content, 'html.parser')

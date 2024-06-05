@@ -28,6 +28,7 @@ def download_from_bucket(file_path, blob_name, bucket_name):
         print(e)
         return False
 
+
 def upload_string_to_bucket(string, bucket_name, blob_name):
     bucket = storage_client.get_bucket(bucket_name)
     blob = bucket.blob(blob_name)

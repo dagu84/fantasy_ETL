@@ -1,5 +1,13 @@
+import os
+import datetime
 from packages.scraper import performance_scrape
 from packages.gcloud import upload_string_to_bucket
+
+current_date = datetime.date.today()
+bucket = os.getenv('BUCKET_NAME')
+
+def url_creator():
+    pass
 
 if __name__=="__main__":
 

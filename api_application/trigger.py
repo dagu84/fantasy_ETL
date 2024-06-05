@@ -45,7 +45,6 @@ def index():
 
         print('Data prepared.')
 
-
         #Connect and update player historicals bucket (PLAYERS)
         upload_string_to_bucket(player_data, blob_name=(f'{current_date}_player.csv'), bucket_name=bucket)
         upload_string_to_bucket(user_data, blob_name=(f'{current_date}_users.csv'), bucket_name=bucket)

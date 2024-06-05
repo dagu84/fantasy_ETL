@@ -2,7 +2,7 @@ import os
 from google.cloud import storage
 
 # Google Credentials
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = '/Users/dg/Desktop/DG/data_science/gcp/ff-nfl-e6db3eb1124e.json'
+# os.environ['GOOGLE_APPLICATION_CREDENTIALS']
 
 # Initialize the Google Cloud Storage client
 storage_client = storage.Client()

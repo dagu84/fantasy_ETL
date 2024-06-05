@@ -2,10 +2,10 @@ install:
 	@pip install -r requirements.txt
 
 clean:
-	@cd application/packages && rm -rf __pycache__
+	@cd api_application/packages && rm -rf __pycache__
 
 trigger:
-	@cd application && python trigger.py
+	@python manual_trigger.py
 
 api_check:
-	@cd application/packages && python sleeper_api.py
+	@cd api_application/packages && python sleeper_api.py

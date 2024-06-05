@@ -35,4 +35,23 @@ def users_transform(data1, data2):
 
 
 def roster_transform(data):
-    pass
+    df = pd.DataFrame(data)
+
+    expanded_rows = []
+    for idx, row in df.iterrows():
+        for player in row['players']:
+            expanded_row = row.to_dict()
+            expanded_row['player'] = player
+            expanded_row['type'] = 'player'
+            expanded_rows.append(expanded_row)
+        for starter in row['starters']:
+            expanded_row = row.to_dict()
+            expanded_row['player'] = starter
+            expanded_row['type'] = 'starter'
+            expanded_rows.append(expanded_row)
+
+    df = pd.DataFrame(expanded_rows)
+    df = df[['player', 'owner_id', 'type']]
+    df.rename(columns={'player':'player_id', 'owner_id':'user_id'}, inplace=True)
+
+    return df

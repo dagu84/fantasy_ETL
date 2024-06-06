@@ -1,3 +1,4 @@
+import io
 import os
 import pandas as pd
 from google.cloud import storage
@@ -37,9 +38,8 @@ def upload_string_to_bucket(string, bucket_name, blob_name):
 
 
 def download_csv_to_dataframe(bucket_name, blob_name):
-    storage_client = storage.Client()
     bucket = storage_client.get_bucket(bucket_name)
     blob = bucket.blob(blob_name)
     csv_string = blob.download_as_text()
-    df = pd.read_csv(pd.compat.StringIO(csv_string))
+    df = pd.read_csv(io.StringIO(csv_string))
     return df

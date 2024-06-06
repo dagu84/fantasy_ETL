@@ -6,8 +6,8 @@ RUN apt-get update \
 
 WORKDIR /api_application
 
-COPY docker-require.txt /api_application
-RUN pip install --no-cache-dir -r /api_application/docker-require.txt
+COPY docker-require-api.txt /api_application
+RUN pip install --no-cache-dir -r /api_application/docker-require-api.txt
 
 COPY . /api_application
 

@@ -2,7 +2,6 @@ import os
 import io
 from flask import Flask
 import datetime
-from dotenv import load_dotenv
 from packages.gcloud import upload_string_to_bucket
 from packages.sleeper_api import status, player, user, roster
 from packages.transformation import player_transform, users_transform, roster_transform

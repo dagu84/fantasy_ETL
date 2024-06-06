@@ -2,9 +2,11 @@ import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 
+url = f'https://www.fantasypros.com/nfl/stats/wr.php?year=2023&scoring=PPR&range=full'
+
 def status_web(url):
-    response = requests.get(url)
-    return response
+    request = requests.get(url)
+    return request.status_code
 
 def performance_scrape(url):
 
@@ -29,3 +31,7 @@ def performance_scrape(url):
     df = pd.DataFrame(rows, columns=headers)
 
     return df
+
+
+if __name__=="__main__":
+    print(f"{status_web(url)}, the api call was successfull.")

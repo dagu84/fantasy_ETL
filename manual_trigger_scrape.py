@@ -5,17 +5,21 @@ import pandas as pd
 from dotenv import load_dotenv
 from scraper_application.packages.scraper import performance_scrape, status_web
 from scraper_application.packages.gcloud import upload_string_to_bucket, download_csv_to_dataframe
+from scraper_application.packages.transformation import qb_transform, pass_catcher_transform, rb_transform
 
 
-load_dotenv()
 current_date = datetime.date.today()
 year = current_date.year
+
+load_dotenv()
 username = os.getenv('USERNAME')
 league = os.getenv('LEAGUE')
 bucket_save = os.getenv('BUCKET_NAME2')
 bucket_load = os.getenv('BUCKET_NAME')
-homepage = f'https://www.fantasypros.com/nfl/stats/wr.php?year={year}&scoring=PPR&range=full'
+
+homepage = f'https://www.fantasypros.com/nfl/stats/wr.php?year=2023&scoring=PPR&range=full'
 schedule = f'schedule_dates_{year}.csv'
+
 
 def week_counter(df):
     df['date'] = pd.to_datetime(df['date'])
@@ -30,16 +34,18 @@ if __name__=="__main__":
         print('Website connection successfull.')
 
         # Import the schedule dataframe
-        df = download_csv_to_dataframe(bucket_load, schedule)
+        df = download_csv_to_dataframe(bucket_save, schedule)
 
         # Extracting the correct schedule week
-        week = week_counter(df)
+        # week = week_counter(df)
+        week = 1
+        year = 2023
 
         # Scraping table data
         qb_url = f'https://www.fantasypros.com/nfl/stats/qb.php?year={year}&week={week}&scoring=PPR&range=week'
-        rb_url = f'https://www.fantasypros.com/nfl/stats/qb.php?year={year}&week={week}&scoring=PPR&range=week'
-        wr_url = f'https://www.fantasypros.com/nfl/stats/qb.php?year={year}&week={week}&scoring=PPR&range=week'
-        te_url = f'https://www.fantasypros.com/nfl/stats/qb.php?year={year}&week={week}&scoring=PPR&range=week'
+        rb_url = f'https://www.fantasypros.com/nfl/stats/rb.php?year={year}&week={week}&scoring=PPR&range=week'
+        wr_url = f'https://www.fantasypros.com/nfl/stats/wr.php?year={year}&week={week}&scoring=PPR&range=week'
+        te_url = f'https://www.fantasypros.com/nfl/stats/te.php?year={year}&week={week}&scoring=PPR&range=week'
 
         qb = performance_scrape(qb_url)
         rb = performance_scrape(rb_url)
@@ -49,13 +55,14 @@ if __name__=="__main__":
         print('Data scraped successfully.')
 
         # Transform Data and save temporarily as a string
-        # This will be for transformation
+        df = qb_transform(qb, week)
         csv_buffer = io.StringIO()
         df.to_csv(csv_buffer, index=False)
         qb = csv_buffer.getvalue()
 
-        # This will be for transformation
-        df = pd.concat([rb, wr, te], ignore_index=True)
+        rb = rb_transform(rb, week)
+        pass_catch = pass_catcher_transform(wr, te, week)
+        df = pd.concat([rb, pass_catch], ignore_index=True)
         csv_buffer = io.StringIO()
         df.to_csv(csv_buffer, index=False)
         skill_position = csv_buffer.getvalue()

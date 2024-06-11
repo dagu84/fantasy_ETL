@@ -11,7 +11,7 @@ from packages.transformation import qb_transform, pass_catcher_transform, rb_tra
 current_date = datetime.date.today()
 year = current_date.year
 
-bucket = os.getenv('BUCKET_NAME_2')
+bucket = os.getenv('BUCKET_NAME_SCRAPE')
 
 homepage = f'https://www.fantasypros.com/nfl/stats/wr.php?year=2023&scoring=PPR&range=full'
 schedule = f'schedule_dates_{year}.csv'

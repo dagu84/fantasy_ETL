@@ -3,7 +3,7 @@ import io
 import datetime
 from flask import Flask
 import pandas as pd
-from packages.scraper import performance_scrape, status_web
+from monolith.packages.scraper import performance_scrape, status_web
 from packages.gcloud import upload_string_to_bucket, download_csv_to_dataframe
 from packages.transformation import qb_transform, pass_catcher_transform, rb_transform
 
@@ -82,6 +82,17 @@ def index():
 
     else:
         print('Connection failed')
+
+    return 'Script executed.'
+
+
+@app.route('/test')
+def whatever():
+    df = pd.DataFrame()
+    csv_buffer = io.StringIO()
+    df.to_csv(csv_buffer, index=False)
+    df = csv_buffer.getvalue()
+    upload_string_to_bucket(df, blob_name='testing', bucket_name=bucket)
 
     return 'Script executed.'
 

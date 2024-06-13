@@ -6,12 +6,9 @@ RUN apt-get update \
 
 WORKDIR /api_application
 
-COPY docker-require-api.txt /api_application
+COPY ../api_application /api_application
+
 RUN pip install --no-cache-dir -r /api_application/docker-require-api.txt
-
-COPY . /api_application
-
-RUN chmod +x api_application/trigger.py
 
 EXPOSE 8080
 

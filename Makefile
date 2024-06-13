@@ -32,10 +32,13 @@ trigger_hist:
 
 #DOCKER
 api_docker:
-	@docker buildx build --platform linux/amd64 -f $(DOCKER_FILE) -t $(GCP_REGION)-docker.pkg.dev/$(GCP_PROJECT_ID)/$(DOCKER_REPO_NAME)/$(DOCKER_IMAGE_NAME):0.1 . && docker push $(GCP_REGION)-docker.pkg.dev/$(GCP_PROJECT_ID)/$(DOCKER_REPO_NAME)/$(DOCKER_IMAGE_NAME):0.1
+	@cd docker_images && docker buildx build --platform linux/amd64 -f $(DOCKER_FILE) -t $(GCP_REGION)-docker.pkg.dev/$(GCP_PROJECT_ID)/$(DOCKER_REPO_NAME)/$(DOCKER_IMAGE_NAME):0.1 .. && docker push $(GCP_REGION)-docker.pkg.dev/$(GCP_PROJECT_ID)/$(DOCKER_REPO_NAME)/$(DOCKER_IMAGE_NAME):0.1
 
 scrape_docker:
-	@docker buildx build --platform linux/amd64 -f $(DOCKER_FILE_2) -t $(GCP_REGION)-docker.pkg.dev/$(GCP_PROJECT_ID)/$(DOCKER_REPO_NAME)/$(DOCKER_IMAGE_NAME_2):0.1 . && docker push $(GCP_REGION)-docker.pkg.dev/$(GCP_PROJECT_ID)/$(DOCKER_REPO_NAME)/$(DOCKER_IMAGE_NAME_2):0.1
+	@cd docker_images && docker buildx build --platform linux/amd64 -f $(DOCKER_FILE_2) -t $(GCP_REGION)-docker.pkg.dev/$(GCP_PROJECT_ID)/$(DOCKER_REPO_NAME)/$(DOCKER_IMAGE_NAME_2):0.1 .. && docker push $(GCP_REGION)-docker.pkg.dev/$(GCP_PROJECT_ID)/$(DOCKER_REPO_NAME)/$(DOCKER_IMAGE_NAME_2):0.1
 
 hist_docker:
-	@docker buildx build --platform linux/amd64 -f $(DOCKER_FILE_3) -t $(GCP_REGION)-docker.pkg.dev/$(GCP_PROJECT_ID)/$(DOCKER_REPO_NAME)/$(DOCKER_IMAGE_NAME_3):0.1 . && docker push $(GCP_REGION)-docker.pkg.dev/$(GCP_PROJECT_ID)/$(DOCKER_REPO_NAME)/$(DOCKER_IMAGE_NAME_3):0.1
+	@cd docker_images && docker buildx build --platform linux/amd64 -f $(DOCKER_FILE_3) -t $(GCP_REGION)-docker.pkg.dev/$(GCP_PROJECT_ID)/$(DOCKER_REPO_NAME)/$(DOCKER_IMAGE_NAME_3):0.1 .. && docker push $(GCP_REGION)-docker.pkg.dev/$(GCP_PROJECT_ID)/$(DOCKER_REPO_NAME)/$(DOCKER_IMAGE_NAME_3):0.1
+
+monolith_docker:
+	@cd docker_images && docker buildx build --platform linux/amd64 -f $(DOCKER_FILE_4) -t $(GCP_REGION)-docker.pkg.dev/$(GCP_PROJECT_ID)/$(DOCKER_REPO_NAME)/$(DOCKER_IMAGE_NAME_4):0.1 .. && docker push $(GCP_REGION)-docker.pkg.dev/$(GCP_PROJECT_ID)/$(DOCKER_REPO_NAME)/$(DOCKER_IMAGE_NAME_4):0.1

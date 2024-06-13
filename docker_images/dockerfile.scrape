@@ -6,12 +6,9 @@ RUN apt-get update \
 
 WORKDIR /scraper_application
 
-COPY docker-require-scrape.txt /scraper_application
+COPY ../scraper_application /scraper_application
+
 RUN pip install --no-cache-dir -r /scraper_application/docker-require-scrape.txt
-
-COPY . /scraper_application
-
-RUN chmod +x scraper_application/trigger.py
 
 EXPOSE 8080
 

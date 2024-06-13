@@ -6,12 +6,9 @@ RUN apt-get update \
 
 WORKDIR /historical_application
 
-COPY docker-require-hist.txt /historical_application
+COPY ../historical_application /historical_application
+
 RUN pip install --no-cache-dir -r /historical_application/docker-require-hist.txt
-
-COPY . /historical_application
-
-RUN chmod +x historical_application/trigger.py
 
 EXPOSE 8080
 

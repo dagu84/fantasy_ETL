@@ -12,4 +12,4 @@ RUN pip install --no-cache-dir -r /monolith/requirements.txt
 
 EXPOSE 8080
 
-CMD ["python", "monolith/trigger.py"]
+CMD ["python", "trigger.py"]

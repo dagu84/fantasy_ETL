@@ -22,6 +22,8 @@ bucket_current = os.getenv('BUCKET_NAME_CURRENT')
 bucket_name = os.getenv('BUCKET_NAME_SCRAPE_HIST')
 
 schedule = f'schedule_dates_{year}.csv'
+app = Flask(__name__)
+
 
 def week_counter(df):
     try:
@@ -35,7 +37,11 @@ def week_counter(df):
     except Exception:
         return 1
 
-app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return 'root endpoint.'
+
 
 @app.route('/api')
 def api():
@@ -126,6 +132,8 @@ def scrape_cd():
     else:
         print('Connection failed')
 
+    return 'File executed.'
+
 
 @app.route('/scrape_ff')
 def scrape_ff():
@@ -178,7 +186,7 @@ def scrape_ff():
     else:
         print('Connection failed')
 
-    return 'Script executed.'
+    return 'File executed.'
 
 
 if __name__=="__main__":

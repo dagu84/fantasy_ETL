@@ -6,6 +6,8 @@ clean:
 	@cd api_application/packages && rm -rf __pycache__
 	@cd scraper_application/packages && rm -fr __pycache__
 	@cd historical_application/packages && rm -fr __pycache__
+	@cd monolith/packages && rm -fr __pycache__
+	@cd historical_pp/packages && rm -fr __pycache__
 
 
 #CONNECTION
@@ -21,13 +23,16 @@ hist_check:
 
 #MAIN FILE
 trigger_api:
-	@python manual_trigger_api.py
+	@python api_application/trigger.py
 
 trigger_scrape:
-	@python manual_trigger_scrape.py
+	@python scrape_application/trigger.py
 
 trigger_hist:
-	@python manual_trigger_historical.py
+	@python historical_application/trigger.py
+
+trigger_monolith:
+	@python monolith/trigger.py
 
 
 #DOCKER

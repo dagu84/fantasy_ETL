@@ -13,7 +13,7 @@ from packages.transformation import qb_transform, pass_catcher_transform, rb_tra
 
 load_dotenv()
 current_date = datetime.date.today()
-year = current_date.year
+year = 2019
 username = os.getenv('USERNAME')
 league = os.getenv('LEAGUE')
 bucket = os.getenv('BUCKET_NAME_SCRAPE')
@@ -26,16 +26,12 @@ app = Flask(__name__)
 
 
 def week_counter(df):
-    try:
-        df['date'] = pd.to_datetime(df['date'])
-        week = df.loc[df['date'] == current_date, 'week']
-        if not week.empty:
-            return week.iloc[0]
-        else:
-            return "Week not found for the current date."
-
-    except Exception:
-        return 1
+    df['date'] = pd.to_datetime(df['date'])
+    week = df.loc[df['date'] == current_date, 'week']
+    if not week.empty:
+        return week.iloc[0]
+    else:
+        return "Week not found for the current date."
 
 
 @app.route('/')
@@ -137,14 +133,12 @@ def scrape_cd():
 
 @app.route('/scrape_ff')
 def scrape_ff():
-    url = 'https://www.fantasypros.com/nfl/stats/wr.php?year=2023&scoring=PPR&range=full'
-    if status_web(url) == 200:
+    df = download_csv_to_dataframe(bucket, schedule)
+    week = df.loc[df['date'] == current_date, 'week']
+    if not week.empty:
 
         # Check Website status
         print('Website connection successfull.')
-
-        # Import the schedule dataframe
-        df = download_csv_to_dataframe(bucket, schedule)
 
         # Extracting the correct schedule week
         week = week_counter(df)
@@ -184,9 +178,14 @@ def scrape_ff():
         print('File executed successfully.')
 
     else:
-        print('Connection failed')
+        print('Date not included.')
 
     return 'File executed.'
+
+
+@app.route('/scrape_league')
+def scrape_league():
+    pass
 
 
 if __name__=="__main__":

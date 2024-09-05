@@ -1,3 +1,4 @@
+import re
 import requests
 import pandas as pd
 from bs4 import BeautifulSoup
@@ -88,6 +89,34 @@ def draft_scrape(year):
         rows.append(row)
 
     df = pd.DataFrame(rows, columns=headers)
+
+    return df
+
+
+def pre_rankings(url):
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser')
+
+    experts_column = soup.find('div', attrs={'class': 'experts-column triple'})
+    player_rows = experts_column.find_all('div', attrs={'class': 'player-row'})
+    player_data = []
+
+    for row in player_rows:
+        rank = row.find('div', attrs={'class': 'rank'}).text.strip() if row.find('div', attrs={'class': 'rank'}) else None
+
+        player = row.find('div', attrs={'class': 'player'}).text.strip() if row.find('div', attrs={'class': 'player'}) else None
+        if player:
+            player = re.sub(r'\s+(WR|TE|RB)\s*', '', player).strip()
+            player = player.replace('\n', '').strip()
+
+        team_position = row.find('span', attrs={'class': 'team position'}).text.strip() if row.find('span', attrs={'class': 'team position'}) else None
+        player_stats = row.find('div', attrs={'class': 'player-stats'}).text.strip() if row.find('div', attrs={'class': 'player-stats'}) else None
+        if player_stats:
+            player_stats = player_stats.replace('@', '').strip()
+
+        player_data.append([rank, player, team_position, player_stats])
+
+    df = pd.DataFrame(player_data, columns=['Rank', 'Player', 'Team Position', 'Opponent'])
 
     return df
 

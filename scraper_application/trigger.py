@@ -3,7 +3,7 @@ import io
 import datetime
 from flask import Flask
 import pandas as pd
-from monolith.packages.scraper import performance_scrape, status_web
+from monolith.packages.scraper import performance_scrape, status_web, pre_rankings
 from packages.gcloud import upload_string_to_bucket, download_csv_to_dataframe
 from packages.transformation import qb_transform, pass_catcher_transform, rb_transform
 
@@ -84,6 +84,32 @@ def index():
         print('Connection failed')
 
     return 'Script executed.'
+
+
+# @app.route('/rankings')
+# def ranking():
+#     if status_web('https://www.cbssports.com/fantasy/football/rankings/ppr/flex/weekly/') == 200:
+
+#         # Check Website status
+#         print('Website connection successfull.')
+
+#         df = pre_rankings('https://www.cbssports.com/fantasy/football/rankings/ppr/flex/weekly/')
+
+#         csv_buffer = io.StringIO()
+#         df.to_csv(csv_buffer, index=False)
+#         df = csv_buffer.getvalue()
+
+#         print('Data prepared.')
+
+#         # Connect and update player performance bucket
+#         upload_string_to_bucket(df, blob_name=(f'week{current_date}_rankings.csv'), bucket_name=bucket)
+
+#         print('File executed successfully.')
+
+#     else:
+#         print('Connection failed')
+
+#     return 'Script executed.'
 
 
 @app.route('/test')
